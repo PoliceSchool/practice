@@ -13,6 +13,7 @@
         <module>java-basic</module>
         <module>mq</module>
         <module>mini-spring</module>
+        <module>algorithm</module>
     </modules>
 
 
