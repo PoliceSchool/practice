@@ -1,0 +1,25 @@
+消息应答与消息持久化
+boolean autoAck = false
+channel.basicConsume(QUEUE_NAME, autoAck, consumer);
+
+boolean autoAck = true;(自动确认模式)一旦rabbitmq将消息分发给消费者,就会从内存中删除
+这种情况下,如果杀死正在执行的消费者,就会丢失正在处理的消息
+
+boolean autoAck = false;(手动模式),如果有一个消费者挂掉,就会交付给其他消费者,
+rabbitmq支持消息应答,消费者发送一个消息应答,告诉rabbitmq这个消息我已经处理完成,你可以
+删了,然后rabbitmq就删除内存中的消息
+
+消息应答默认是打开的,false
+
+Message acknowledge:消息应答
+=========================
+如果rabbitmq挂了,消息仍然会丢失,怎么办?
+
+消息的持久化:
+boolean durable = false;  // 这个参数表示将队列消息持久化
+channel.queueDeclare(QUEUE_NAME, durable, false, false, null);
+
+rabbitmq不允许重新定义(不同参数)一个已存在的队列
+比如,我已经定义了channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+我再定义了channel.queueDeclare(QUEUE_NAME, true, false, false, null);是会报错的
+只能先删了原先的队列再重新定义

@@ -1,0 +1,17 @@
+学习资料来源:B站的rabbitmq教学视频
+https://www.bilibili.com/video/av18997807?p=10
+学习顺序是:
+util包
+simple包
+work_round_ronbin包
+work_fair包
+message包
+ps包
+routing包
+topic包
+tx包
+confirm包
+
+mq相关问题的解决：
+https://jack-37.gitbook.io/gossip/guan-yu-mq-de-ji-jian-xiao-shi/guan-yu-mq-de-ji-jian-xiao-shi-wu-ru-he-bao-zheng-xiao-xi-an-shun-xu-zhi-hang
+https://github.com/doocs/advanced-java
