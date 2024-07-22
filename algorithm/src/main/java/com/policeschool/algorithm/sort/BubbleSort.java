@@ -3,6 +3,7 @@ package com.policeschool.algorithm.sort;
 import java.util.Arrays;
 
 /**
+ * 参考实现：https://algo.itcharge.cn/01.Array/02.Array-Sort/01.Array-Bubble-Sort/
  * 冒泡排序,时间复杂度O(n*n),空间复杂度O(1)
  */
 public class BubbleSort {
@@ -22,9 +23,8 @@ public class BubbleSort {
      * 所以第二个for循环 j < length - i - 1
      *
      * @param arr 未排序数组
-     * @return 已排序数组
      */
-    public int[] sort(int[] arr) {
+    public static void sort(int[] arr) {
         int length = arr.length;
         for (int i = 0; i < length - 1; i++) {
             for (int j = 0; j < length - i - 1; j++) {
@@ -34,11 +34,11 @@ public class BubbleSort {
                     arr[j + 1] = max;
                 }
             }
+            System.out.println(Arrays.toString(arr));
         }
-        return arr;
     }
 
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(new BubbleSort().sort(new int[]{5, 2, 3, 6, 1, 4})));
+        sort(new int[]{5, 2, 3, 6, 1, 4});
     }
 }

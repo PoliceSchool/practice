@@ -10,6 +10,8 @@ import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.remoting.protocol.heartbeat.MessageModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class Consumer {
@@ -21,14 +23,17 @@ public class Consumer {
         // 指定从第一条消息开始消费
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         // 指定消费topic与tag
-        consumer.subscribe("OnewayTopic", "*");
+        consumer.subscribe("DelayTopic", "DelayTag");
         // 指定采用"广播模式"进行消费，默认为"集群模式"
         // consumer.setMessageModel(MessageModel.BROADCASTING);
 
         // 注册监听器
         consumer.registerMessageListener((MessageListenerConcurrently) (list, consumeConcurrentlyContext) -> {
             // 逐条消费消息
-            list.forEach(System.out::println);
+            list.forEach(msg -> {
+                System.out.print(new SimpleDateFormat("mm:ss").format(new Date()));
+                System.out.println(" ," + msg);
+            });
             // 返回消费状态：消费成功
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         });
