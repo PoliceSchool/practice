@@ -20,6 +20,7 @@
         <module>mq</module>
         <module>mini-spring</module>
         <module>algorithm</module>
+        <module>nosql</module>
     </modules>
 
 
