@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http:/mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.policeschool.code.dao.ProductMapper">
+    <!-- 定义映射规则 -->
+    <resultMap id="productMap" type="Product">
+        <id property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <association property="customer" javaType="Customer">
+            <id property="id" column="customer_id"/>
+        </association>
+        <association property="deliveryAddress" javaType="Address">
+            <id property="id" column="address_id"/>
+        </association>
+    </resultMap>
+
+
+    <select id="find" resultMap="productMap">
+        select * from t_order where id = #{id:INTEGER}
+    </select>
+
+    <select id="findByCustomerId" resultMap="productMap">
+        select * from t_order where customer_id = #{id:INTEGER}
+        and create_time <![CDATA[ >= ]]> #{startTime}
+        and create_time <![CDATA[ <= ]]> #{endTime}
+    </select>
+
+    <insert id="save" keyProperty="id" useGeneratedKeys="true">
+
+
+        insert into t_order(customer_id, address_id, create_time)
+        values(#{customer.id}, #{deliveryAddress.id}, #{createTime})
+
+
+    </insert>
+</mapper>

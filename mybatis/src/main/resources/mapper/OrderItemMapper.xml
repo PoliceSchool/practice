@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http:/mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.policeschool.code.dao.OrderItemMapper">
+    <!-- 定义映射规则 -->
+    <resultMap id="orderItemMap" type="OrderItem">
+        <id property="id" column="id"/>
+        <result property="amount" column="amount"/>
+        <result property="orderId" column="order_id"/>
+        <association property="product" javaType="Product">
+            <id property="id" column="product_id"/>
+            <result property="name" column="name"/>
+            <result property="description" column="description"/>
+            <result property="price" column="price"/>
+        </association>
+    </resultMap>
+
+    <select id="find" resultMap="orderItemMap">
+        select i.*, p.*, p.id as product_id, from t_order_item as i join t_product as p
+        on i.product_id = p.id
+        where id = #{id:INTEGER}
+    </select>
+
+    <select id="findByOrderId" resultMap="orderItemMap">
+        select i.*, p.* from t_order_item as i join t_product as p
+        on i.product_id = p.id
+        where i.order_id = #{orderId:INTEGER}
+    </select>
+
+    <insert id="save" keyProperty="id" useGeneratedKeys="true">
+        insert into t_order_item(amount, product_id, order_id)
+        values(#{orderItem.amount}, #{orderItem.product.id}, #{orderId})
+    </insert>
+</mapper>

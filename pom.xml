@@ -21,6 +21,7 @@
         <module>mini-spring</module>
         <module>algorithm</module>
         <module>nosql</module>
+        <module>mybatis</module>
     </modules>
 
 

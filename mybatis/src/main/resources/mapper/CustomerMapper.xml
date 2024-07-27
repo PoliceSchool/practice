@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http:/mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.policeschool.code.dao.CustomerMapper">
+    <!-- 定义映射规则 -->
+    <resultMap id="customerSimpleMap" type="Customer">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+    </resultMap>
+
+    <!-- 定义映射规则 -->
+    <resultMap id="customerMap" type="Customer">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <collection property="addresses" javaType="list" ofType="Address">
+            <id property="id" column="address_id"/>
+            <result property="street" column="street"/>
+            <result property="city" column="city"/>
+            <result property="country" column="country"/>
+        </collection>
+    </resultMap>
+
+    <select id="find" resultMap="customerSimpleMap">
+        select * from t_customer where id = #{id:INTEGER}
+    </select>
+
+    <select id="findWithAddress" resultMap="customerMap">
+        select c.*, a.id as address_id, a.* from t_customer as c join t_address as a
+        on c.id = a.customer_id
+        where c.id = #{id:INTEGER}
+    </select>
+
+    <select id="findByOrderId" resultMap="customerSimpleMap">
+        select * from t_customer as c join t_order as t
+        on c.id = t.customer_id
+        where t.customer_id = #{id:INTEGER}
+    </select>
+
+    <insert id="save" keyProperty="id" useGeneratedKeys="true">
+        insert into t_customer(id, name, phone)
+        values(#{id}, #{name}, #{phone})
+    </insert>
+</mapper>
