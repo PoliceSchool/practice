@@ -19,4 +19,5 @@ public class 质数因子 {
             System.out.println(a == 1 ? "" : a + "");
         }
     }
+
 }
