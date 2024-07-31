@@ -25,6 +25,7 @@ public class 删除字符串中出现次数最少的字符 {
                 char ch = str.charAt(i);
                 if (map.get(ch) != min) {
                     System.out.print(ch);
+
                 }
             }
         }
