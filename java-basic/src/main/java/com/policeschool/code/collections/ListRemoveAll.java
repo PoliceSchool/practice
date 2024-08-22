@@ -7,6 +7,7 @@ public class ListRemoveAll {
     public static void main(String[] args) {
         List<Integer> list1 = new ArrayList<>();
         List<Integer> list2 = new ArrayList<>();
+        List<Integer> list3 = new ArrayList<>();
 
         // 填充数据
         list1.add(1);
@@ -15,12 +16,11 @@ public class ListRemoveAll {
         list1.add(4);
 
         list2.add(3);
-        list2.add(4);
         list2.add(5);
 
         // 删除list1中与list2相同的元素
-        list1.removeAll(list2);
+        list2.removeAll(list1);
 
-        System.out.println(list1); // 输出 [1, 2]
+        System.out.println(list2);
     }
 }
