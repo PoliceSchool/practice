@@ -8,13 +8,15 @@
     </properties>
     <settings>
         <setting name="cacheEnabled" value="true"/>
+        <setting name="logImpl" value="SLF4J"/>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
     <typeAliases>
-        <typeAlias type="com.policeschool.code.domain.Customer" alias="Customer"/>
-        <typeAlias type="com.policeschool.code.domain.Address" alias="Address"/>
-        <typeAlias type="com.policeschool.code.domain.Order" alias="Order"/>
-        <typeAlias type="com.policeschool.code.domain.OrderItem" alias="OrderItem"/>
-        <typeAlias type="com.policeschool.code.domain.Product" alias="Product"/>
+        <typeAlias type="com.policeschool.code.gzqhero.domain.Customer" alias="Customer"/>
+        <typeAlias type="com.policeschool.code.gzqhero.domain.Address" alias="Address"/>
+        <typeAlias type="com.policeschool.code.gzqhero.domain.Order" alias="Order"/>
+        <typeAlias type="com.policeschool.code.gzqhero.domain.OrderItem" alias="OrderItem"/>
+        <typeAlias type="com.policeschool.code.gzqhero.domain.Product" alias="Product"/>
     </typeAliases>
     <environments default="development">
         <environment id="development">

@@ -1,6 +1,6 @@
-package com.policeschool.code.dao;
+package com.policeschool.code.gzqhero.dao;
 
-import com.policeschool.code.domain.Product;
+import com.policeschool.code.gzqhero.domain.Product;
 
 import java.util.List;
 

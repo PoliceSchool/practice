@@ -1,6 +1,6 @@
-package com.policeschool.code.dao;
+package com.policeschool.code.gzqhero.dao;
 
-import com.policeschool.code.domain.Customer;
+import com.policeschool.code.gzqhero.domain.Customer;
 
 public interface CustomerMapper {
     Customer find(Long id);

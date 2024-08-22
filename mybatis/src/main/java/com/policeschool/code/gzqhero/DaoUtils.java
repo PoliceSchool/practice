@@ -1,4 +1,4 @@
-package com.policeschool.code;
+package com.policeschool.code.gzqhero;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;

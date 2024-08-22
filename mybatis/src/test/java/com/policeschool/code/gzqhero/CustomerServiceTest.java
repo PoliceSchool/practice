@@ -1,7 +1,7 @@
-package com.policeschool.code;
+package com.policeschool.code.gzqhero;
 
-import com.policeschool.code.domain.Customer;
-import com.policeschool.code.service.CustomerService;
+import com.policeschool.code.gzqhero.domain.Customer;
+import com.policeschool.code.gzqhero.service.CustomerService;
 import org.junit.Before;
 import org.junit.Test;
 

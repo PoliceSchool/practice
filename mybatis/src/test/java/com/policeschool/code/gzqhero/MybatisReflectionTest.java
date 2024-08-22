@@ -1,6 +1,6 @@
-package com.policeschool.code;
+package com.policeschool.code.gzqhero;
 
-import com.policeschool.code.domain.Customer;
+import com.policeschool.code.gzqhero.domain.Customer;
 import org.apache.ibatis.reflection.*;
 import org.apache.ibatis.reflection.factory.DefaultObjectFactory;
 import org.apache.ibatis.reflection.factory.ObjectFactory;

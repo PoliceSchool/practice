@@ -1,6 +1,6 @@
-package com.policeschool.code.dao;
+package com.policeschool.code.gzqhero.dao;
 
-import com.policeschool.code.domain.Address;
+import com.policeschool.code.gzqhero.domain.Address;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

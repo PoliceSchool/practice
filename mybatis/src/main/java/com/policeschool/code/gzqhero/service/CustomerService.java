@@ -1,10 +1,10 @@
-package com.policeschool.code.service;
+package com.policeschool.code.gzqhero.service;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import com.policeschool.code.DaoUtils;
-import com.policeschool.code.dao.CustomerMapper;
-import com.policeschool.code.domain.Customer;
+import com.policeschool.code.gzqhero.DaoUtils;
+import com.policeschool.code.gzqhero.dao.CustomerMapper;
+import com.policeschool.code.gzqhero.domain.Customer;
 
 public class CustomerService {
     public Long register(String name, String phone) {

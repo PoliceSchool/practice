@@ -1,4 +1,4 @@
-package com.policeschool.code.domain;
+package com.policeschool.code.gzqhero.domain;
 
 import lombok.Data;
 
