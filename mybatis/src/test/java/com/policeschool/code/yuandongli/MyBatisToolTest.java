@@ -17,9 +17,16 @@ import org.apache.ibatis.ognl.OgnlContext;
 import org.apache.ibatis.ognl.OgnlException;
 import org.apache.ibatis.parsing.XNode;
 import org.apache.ibatis.parsing.XPathParser;
+import org.apache.ibatis.reflection.DefaultReflectorFactory;
+import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.reflection.factory.DefaultObjectFactory;
+import org.apache.ibatis.reflection.wrapper.DefaultObjectWrapperFactory;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+import org.apache.ibatis.type.IntegerTypeHandler;
+import org.apache.ibatis.type.LongTypeHandler;
 import org.apache.ibatis.type.TypeAliasRegistry;
+import org.apache.ibatis.type.TypeHandler;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -27,6 +34,10 @@ import org.springframework.core.io.Resource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -118,5 +129,42 @@ public class MyBatisToolTest {
         TypeAliasRegistry typeAliasRegistry = new TypeAliasRegistry();
         typeAliasRegistry.registerAlias("orderItem", OrderItem.class);
         typeAliasRegistry.registerAliases("com.policeschool.code.gzqhero.domain");
+    }
+
+    @Test
+    public void testTypeHandler() {
+        Connection connection = null;
+        String sql = "select * from product";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                TypeHandler<Long> typeHandler = new LongTypeHandler();
+                Long id = typeHandler.getResult(resultSet, "id");
+                System.out.println(id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testMetaObject() {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setOrderId(1L);
+        orderItem.setId(1L);
+        orderItem.setAmount(BigDecimal.ONE);
+        orderItem.setPrice(BigDecimal.TEN);
+        orderItem.setProduct(new Product(1L, "洗发露", "desc", BigDecimal.TEN));
+        log.info("orderItem: {}", orderItem);
+
+        MetaObject metaObject = MetaObject.forObject(orderItem,
+                new DefaultObjectFactory(), // 用来创建对象的工厂，可自定义然后配置在配置文件里面
+                new DefaultObjectWrapperFactory(), // 用来包装对象的工厂，可自定义然后配置在配置文件里面
+                new DefaultReflectorFactory()); // 用来反射对象的工厂，可自定义然后配置在配置文件里面
+        metaObject.setValue("product.name", "洗洁精");
+        log.info("orderItem: {}", orderItem);
+
+        log.info("getValue: {}", metaObject.getValue("product.name"));
+        // DefaultObjectFactory、DefaultObjectWrapperFactory、DefaultObjectWrapperFactory、Reflector、MetaClass
     }
 }
