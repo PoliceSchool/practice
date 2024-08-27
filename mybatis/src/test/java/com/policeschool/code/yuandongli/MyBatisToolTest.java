@@ -7,11 +7,9 @@ import org.apache.ibatis.builder.StaticSqlSource;
 import org.apache.ibatis.builder.xml.XMLConfigBuilder;
 import org.apache.ibatis.builder.xml.XMLMapperEntityResolver;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
+import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.logging.slf4j.Slf4jImpl;
-import org.apache.ibatis.mapping.Environment;
-import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.mapping.SqlCommandType;
-import org.apache.ibatis.mapping.SqlSource;
+import org.apache.ibatis.mapping.*;
 import org.apache.ibatis.ognl.Ognl;
 import org.apache.ibatis.ognl.OgnlContext;
 import org.apache.ibatis.ognl.OgnlException;
@@ -38,9 +36,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * MyBatis中常用的工具类的使用测试
@@ -134,7 +130,7 @@ public class MyBatisToolTest {
     @Test
     public void testTypeHandler() {
         Connection connection = null;
-        String sql = "select * from product";
+        String sql = "select * from t_product";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -167,4 +163,42 @@ public class MyBatisToolTest {
         log.info("getValue: {}", metaObject.getValue("product.name"));
         // DefaultObjectFactory、DefaultObjectWrapperFactory、DefaultObjectWrapperFactory、Reflector、MetaClass
     }
+
+    @Test
+    public void testMappedStatement() throws IOException {
+        InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
+        XMLConfigBuilder xmlConfigBuilder = new XMLConfigBuilder(inputStream);
+        Configuration configuration = xmlConfigBuilder.parse();
+
+        StaticSqlSource sqlSource = new StaticSqlSource(configuration, "select id, name, description, price from t_product");
+
+        MappedStatement.Builder builder = new MappedStatement.Builder(configuration, "select", sqlSource, SqlCommandType.SELECT);
+
+        List<ResultMapping> resultMappings = new ArrayList<>();
+        ResultMapping idMapping = new ResultMapping.Builder(configuration, "id", "id", Long.class).build();
+        resultMappings.add(idMapping);
+        ResultMapping nameMapping = new ResultMapping.Builder(configuration, "name", "name", String.class).build();
+        resultMappings.add(nameMapping);
+        ResultMapping descriptionMapping = new ResultMapping.Builder(configuration, "description", "description", String.class).build();
+        resultMappings.add(descriptionMapping);
+        ResultMapping priceMapping = new ResultMapping.Builder(configuration, "price", "price", BigDecimal.class).build();
+        resultMappings.add(priceMapping);
+
+        ResultMap resultMap = new ResultMap.Builder(configuration, "resultMap", Product.class, resultMappings).build();
+        List<ResultMap> resultMaps = new ArrayList<>();
+        resultMaps.add(resultMap);
+
+
+        builder.resultMaps(resultMaps);
+        builder.fetchSize(300);
+        builder.databaseId("mysql");
+        MappedStatement mappedStatement = builder.build();
+        log.info("mappedStatement: {}", mappedStatement);
+        BoundSql boundSql = mappedStatement.getBoundSql(new Product());
+        log.info("sql -> {}", boundSql.getSql());
+
+
+
+    }
+
 }
