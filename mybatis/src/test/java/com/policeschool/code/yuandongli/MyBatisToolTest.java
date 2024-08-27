@@ -19,6 +19,7 @@ import org.apache.ibatis.reflection.DefaultReflectorFactory;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.factory.DefaultObjectFactory;
 import org.apache.ibatis.reflection.wrapper.DefaultObjectWrapperFactory;
+import org.apache.ibatis.scripting.xmltags.XMLLanguageDriver;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.apache.ibatis.type.IntegerTypeHandler;
@@ -197,8 +198,23 @@ public class MyBatisToolTest {
         BoundSql boundSql = mappedStatement.getBoundSql(new Product());
         log.info("sql -> {}", boundSql.getSql());
 
+        // StaticSqlSource, DynamicSqlSource, SqlNode, DynamicContext, Ognl, IfSqlNode
+        // WhereSqlNode, StaticTextSqlNode
+    }
 
+    @Test
+    public void testXMLLanguageDriver() throws IOException {
+        InputStream inputStream = Resources.getResourceAsStream("mybatis-config-itnanlaoshi.xml");
+        XMLConfigBuilder xmlConfigBuilder = new XMLConfigBuilder(inputStream);
+        Configuration configuration = xmlConfigBuilder.parse();
 
+        InputStream sqlInputStream = Resources.getResourceAsStream("sql.xml");
+        XPathParser xPathParser = new XPathParser(sqlInputStream);
+        XNode xNode = xPathParser.evalNode("/select");
+
+        XMLLanguageDriver xmlLanguageDriver = new XMLLanguageDriver();
+        SqlSource sqlSource = xmlLanguageDriver.createSqlSource(configuration, xNode, Product.class);
+        log.info("sqlSource --> {}", sqlSource);
     }
 
 }

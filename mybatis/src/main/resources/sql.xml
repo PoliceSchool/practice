@@ -1,0 +1,14 @@
+<select>
+    select id, name, description, price
+    <where>
+        <if test = "id != null">
+            and id = #{id}
+        </if>
+        <if test = "name != null and name != ''">
+            and name = #{name}
+        </if>
+        <if test = "price != null">
+            and price = #{price}
+        </if>
+    </where>
+</select>
